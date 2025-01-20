@@ -1,0 +1,26 @@
+trigger:
+  - main # Adjust for your branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSource: 'spec'
+    versionSpec: '16.x'
+  
+- script: npm install
+  displayName: 'Install Dependencies'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+
+- script: npm run build
+  displayName: 'Build Application'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+      pathtoPublish: 'dist' # Adjust this for your build output directory
+      artifactName: 'drop'
